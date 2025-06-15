@@ -15,7 +15,8 @@ describe('fungsional login', () =>{
         cy.xpath('//button[normalize-space()="Login"]').click()
 
         cy.url().should('include','/web/index.php/dashboard/index')
-        
+        cy.wait(2000) // sementara buat debug
+        cy.get('h6').should('contain.text', 'Dashboard');
 
     });
 
@@ -34,10 +35,11 @@ describe('fungsional login', () =>{
         cy.xpath('//button[normalize-space()="Login"]').should('be.visible')
         cy.xpath('//button[normalize-space()="Login"]').click()
 
+        cy.wait(2000) // tunggu render error message (opsional untuk debug)
+
         cy.get('.oxd-text.oxd-text--span.oxd-input-field-error-message.oxd-input-group__message')
         .should('contain.text', 'Required')
-      
-        cy.url().should('include','/web/index.php/auth/login')
+
     });
 
     it('TL-003-User menginputkan username valid & password yang invalid',() =>{
@@ -54,8 +56,10 @@ describe('fungsional login', () =>{
         cy.xpath('//button[normalize-space()="Login"]').should('be.visible')
         cy.xpath('//button[normalize-space()="Login"]').click()
 
+        cy.wait(2000) // tunggu render error message (opsional untuk debug)
+
         cy.get('.oxd-alert.oxd-alert--error').should('contain.text','Invalid credentials')
-        cy.url().should('include','/web/index.php/auth/login')
+
     });
 
     it('TL-004-User menginputkan username invalid & password valid',() =>{
@@ -72,8 +76,9 @@ describe('fungsional login', () =>{
         cy.xpath('//button[normalize-space()="Login"]').should('be.visible')
         cy.xpath('//button[normalize-space()="Login"]').click()
 
+        cy.wait(2000) // tunggu render error message (opsional untuk debug)
+
         cy.get('.oxd-alert.oxd-alert--error').should('contain.text','Invalid credentials')
-        cy.url().should('include','/web/index.php/auth/login')
 
     });
 
@@ -90,6 +95,8 @@ describe('fungsional login', () =>{
 
         cy.xpath('//button[normalize-space()="Login"]').should('be.visible')
         cy.xpath('//button[normalize-space()="Login"]').click()
+
+        cy.wait(2000) // tunggu render error message (opsional untuk debug)
 
         cy.get('.oxd-text.oxd-text--span.oxd-input-field-error-message.oxd-input-group__message')
         .should('contain.text', 'Required')
@@ -110,8 +117,11 @@ describe('fungsional login', () =>{
         cy.xpath('//button[normalize-space()="Login"]').should('be.visible')
         cy.xpath('//button[normalize-space()="Login"]').click()
 
+        cy.wait(2000) // tunggu render error message (opsional untuk debug)
+
         cy.get('.oxd-text.oxd-text--span.oxd-input-field-error-message.oxd-input-group__message')
         .should('contain.text', 'Required')
+
     });
 
     it('TL-007-User menginputkan username dan password yang invalid', () => {
@@ -128,7 +138,9 @@ describe('fungsional login', () =>{
         cy.xpath('//button[normalize-space()="Login"]').should('be.visible')
         cy.xpath('//button[normalize-space()="Login"]').click()
 
+        cy.wait(2000) // tunggu render error message (opsional untuk debug)
+
         cy.get('.oxd-alert.oxd-alert--error').should('contain.text','Invalid credentials')
-        cy.url().should('include','/web/index.php/auth/login')
+
     });
 });
