@@ -68,6 +68,12 @@ class LoginPage {
     .should('contain.text', 'Required')
  }
 
+    clickforgotpasswordlink() {
+      //clik button link forgot password
+      cy.get('.oxd-text.oxd-text--p.orangehrm-login-forgot-header').should('be.visible')
+      cy.get('.oxd-text.oxd-text--p.orangehrm-login-forgot-header').click()
+    }
+
   }
   
   export default new LoginPage(); // export instance LoginPage

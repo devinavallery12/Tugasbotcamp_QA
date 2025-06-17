@@ -144,3 +144,61 @@
 
     });
 }); */
+
+describe('fungsional forgot password', () =>{
+    //positive case
+    it('TF-001-User menginputkan username valid via email yang valid', () =>{
+        cy.visit('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login')
+        cy.url().should('include','orangehrmlive')
+        cy.title().should('include','OrangeHRM')
+
+        //click button forgot password dulu di halaman login
+        cy.xpath('//p[@class="oxd-text oxd-text--p orangehrm-login-forgot-header"]').should('be.visible')
+        cy.xpath('//p[@class="oxd-text oxd-text--p orangehrm-login-forgot-header"]').click()
+
+
+        //visit ke halaman forgot password
+        cy.visit('https://opensource-demo.orangehrmlive.com/web/index.php/auth/requestPasswordResetCode')
+        cy.url().should('include','requestPasswordResetCode')
+        cy.get('h6').should('contain.text','Reset Password')
+
+        cy.xpath('//input[@placeholder="Username"]').should('be.visible')
+        cy.xpath('//input[@placeholder="Username"]').clear().type('Admin').should('have.value','Admin')
+
+        cy.xpath('//button[normalize-space()="Reset Password"]').should('be.visible')
+        cy.xpath('//button[normalize-space()="Reset Password"]').click()
+
+        cy.url().should('include','/web/index.php/auth/sendPasswordReset')
+        cy.wait(2000) // sementara buat debug
+        cy.get('h6').should('contain.text', 'Reset Password link sent successfully');
+        
+    })
+
+    //negatif case
+    it('TF-002-User tidak input username via email yang valid di field username', () =>{
+        cy.visit('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login')
+        cy.url().should('include','orangehrmlive')
+        cy.title().should('include','OrangeHRM')
+
+        //click button forgot password dulu di halaman login
+        cy.xpath('//p[@class="oxd-text oxd-text--p orangehrm-login-forgot-header"]').should('be.visible')
+        cy.xpath('//p[@class="oxd-text oxd-text--p orangehrm-login-forgot-header"]').click()
+
+        //visit ke halaman forgot password
+        cy.visit('https://opensource-demo.orangehrmlive.com/web/index.php/auth/requestPasswordResetCode')
+        cy.url().should('include','requestPasswordResetCode')
+        cy.get('h6').should('contain.text','Reset Password')
+
+        cy.xpath('//input[@placeholder="Username"]').should('be.visible')
+        cy.xpath('//input[@placeholder="Username"]').clear().should('not.have.value')
+
+        cy.xpath('//button[normalize-space()="Reset Password"]').should('be.visible')
+        cy.xpath('//button[normalize-space()="Reset Password"]').click()
+
+        cy.wait(2000) // sementara buat debug
+        cy.get('.oxd-text.oxd-text--span.oxd-input-field-error-message.oxd-input-group__message')
+        .should('contain.text', 'Required');
+
+
+    })
+})

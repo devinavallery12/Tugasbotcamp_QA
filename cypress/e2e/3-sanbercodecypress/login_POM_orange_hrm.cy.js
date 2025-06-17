@@ -1,4 +1,5 @@
 import loginPage_OrangeHrm from "../../support/page_objects/loginPage_OrangeHrm"
+import forgotPasswordPage_OrangeHrm from "../../support/page_objects/forgotPasswordPage_OrangeHrm"
 import loginData_orangeHrm from "../../fixtures/loginData_OrangeHrm.json"
 
 describe('fungsional login', () =>{
@@ -21,7 +22,7 @@ describe('fungsional login', () =>{
     });
 
     //negative case
-    it.only('TL-002-User tidak menginputkan username dan password',() =>{
+    it('TL-002-User tidak menginputkan username dan password',() =>{
         //masuk url login OrangeHRM
         loginPage_OrangeHrm.Verify_Base_Url_Login()
 
@@ -127,3 +128,47 @@ describe('fungsional login', () =>{
 
     });
 });
+
+describe('fungsional forgot password', () =>{
+    //positif case
+    beforeEach(() => {
+        //cy.visit login page dulu
+        loginPage_OrangeHrm.visit();
+    })
+
+    it('TF-001-User menginputkan username valid via email yang valid', () => {
+
+        //cklik button forgot password di halaman login
+        loginPage_OrangeHrm.clickforgotpasswordlink()
+
+        //membuka atau memverifikasi yang dibuka di halaman forgot password
+        forgotPasswordPage_OrangeHrm.verify_Base_Url_Forgot_Password()
+
+        //input username
+        forgotPasswordPage_OrangeHrm.Input_Username(loginData_orangeHrm.valid_Username)
+
+        //click button reset password
+        forgotPasswordPage_OrangeHrm.Click_Button_Reset()
+
+        //assert reset password
+        forgotPasswordPage_OrangeHrm.verify_Send_Password_Reset()
+    })
+
+    it.only('TF-002-User tidak input username via email yang valid di field username', () => {
+
+        //cklik button forgot password di halaman login
+        loginPage_OrangeHrm.clickforgotpasswordlink()
+        
+        //membuka atau memverifikasi yang dibuka di halaman forgot password
+        forgotPasswordPage_OrangeHrm.verify_Base_Url_Forgot_Password()
+
+        //input username
+        forgotPasswordPage_OrangeHrm.Null_Username()
+
+        //click button reset password
+        forgotPasswordPage_OrangeHrm.Click_Button_Reset()
+
+        //assert username kosong di forgot password
+        forgotPasswordPage_OrangeHrm.verify_Username_kosong_Forgot_Password()
+    })
+})
