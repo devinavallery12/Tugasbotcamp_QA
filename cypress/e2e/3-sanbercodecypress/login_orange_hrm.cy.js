@@ -1,4 +1,4 @@
-describe('fungsional login', () =>{
+/*describe('fungsional login', () =>{
     //positive case
     it('TL-001-User menginputkan username & password yang valid',() =>{
         cy.visit('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login')
@@ -143,4 +143,4 @@ describe('fungsional login', () =>{
         cy.get('.oxd-alert.oxd-alert--error').should('contain.text','Invalid credentials')
 
     });
-});
+}); */
