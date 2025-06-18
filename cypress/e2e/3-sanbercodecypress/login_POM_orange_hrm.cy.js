@@ -16,7 +16,7 @@ describe('fungsional login', () =>{
         //Input Password
         loginPage_OrangeHrm.Input_Password(loginData_orangeHrm.valid_Password)
 
-        //intercept dulu untuk men-trigger request ke AP
+        //intercept dulu untuk men-trigger request ke API
         cy.intercept('GET', 'https://opensource-demo.orangehrmlive.com/web/index.php/api/v2/dashboard/employees/action-summary').as('actionsummary')
 
         
@@ -31,7 +31,7 @@ describe('fungsional login', () =>{
     });
 
     //negative case
-    it.only('TL-002-User tidak menginputkan username dan password',() =>{
+    it('TL-002-User tidak menginputkan username dan password',() =>{
         //masuk url login OrangeHRM
         loginPage_OrangeHrm.Verify_Base_Url_Login()
 
@@ -42,17 +42,24 @@ describe('fungsional login', () =>{
         loginPage_OrangeHrm.Null_Password()
 
         //intercept
-        //cy.intercept('GET', 'https://opensource-demo.orangehrmlive.com/web/index.php/core/i18n/messages').as('messagesrequired')
+        cy.intercept('GET', 'https://opensource-demo.orangehrmlive.com/web/index.php/core/i18n/messages').as('messagesrequired')
 
         //cklick button login
         loginPage_OrangeHrm.Click_Btn_Login()
 
-        //menunggu sampai request login selesai
+        //menunggu sampai request login selesai, tidak bisa dieksekusi krna endpoint web tak memberi respon lain
+        //cy.wait('@messagesrequired').then((interception) => {
+            // Lihat detail response-nya
+           // cy.log('Status code:', interception.response.statusCode);
+            //expect(interception.response.statusCode).to.eq(304); // Atau sesuai respons
+          //})
+      
         //cy.wait('@messagesrequired' , {timeout: 10000}).its('response.statusCode').should('eq', 304)
 
         //assert error login
         loginPage_OrangeHrm.verifyusernameandpassswordKosong()
     });
+
 
     it('TL-003-User menginputkan username valid & password yang invalid',() =>{
         //panggil url login OrangeHRM
@@ -66,9 +73,6 @@ describe('fungsional login', () =>{
 
        //clikbuttonlogin
        loginPage_OrangeHrm.Click_Btn_Login()
-
-       //menunggu sampai request login selesai
-       cy.wait('@loginRequest')
 
        //assert error login
        loginPage_OrangeHrm.Verify_Password_Invalid()
@@ -88,9 +92,6 @@ describe('fungsional login', () =>{
         //clickbuttonlogin
         loginPage_OrangeHrm.Click_Btn_Login()
 
-        //menunggu sampai request login selesai
-        cy.wait('@loginRequest')
-
         //assert error login
         loginPage_OrangeHrm.Verify_Username_Invalid()
 
@@ -109,9 +110,6 @@ describe('fungsional login', () =>{
         //clickbuttonlogin
         loginPage_OrangeHrm.Click_Btn_Login()
 
-        //menunggu sampai request login selesai
-        cy.wait('@loginRequest')
-
         //assert error login
         loginPage_OrangeHrm.Verify_Username_Kosong()
     });
@@ -128,9 +126,6 @@ describe('fungsional login', () =>{
 
         //clickbuttonlogin
         loginPage_OrangeHrm.Click_Btn_Login()
-
-        //menunggu sampai request login selesai
-        cy.wait('@loginRequest')
 
         //assert error login
         loginPage_OrangeHrm.Verify_Username_Kosong()
@@ -150,9 +145,6 @@ describe('fungsional login', () =>{
         //clickbuttonlogin
         loginPage_OrangeHrm.Click_Btn_Login()
 
-        //menunggu sampai request login selesai
-        cy.wait('@loginRequest')
-
         //assert error login
         loginPage_OrangeHrm.Verify_Username_Invalid()
 
@@ -163,8 +155,8 @@ describe('fungsional forgot password', () =>{
     //positif case
     beforeEach(() => {
 
-        //intercept dulu untuk men-trigger request ke API
-        cy.intercept('POST', '/web/index.php/auth/login').as('loginRequest')
+        //intercept dulu untuk men-trigger request ke API, tidak bisa digunakan. kasusnya sama web tidak memberi respon lain
+        //cy.intercept('POST', '/web/index.php/auth/login').as('loginRequest')
 
         //cy.visit login page dulu
         loginPage_OrangeHrm.visit();
@@ -184,9 +176,6 @@ describe('fungsional forgot password', () =>{
         //click button reset password
         forgotPasswordPage_OrangeHrm.Click_Button_Reset()
 
-        //menggu aksi request dari intercept
-        cy.wait('@loginRequest')
-
         //assert reset password
         forgotPasswordPage_OrangeHrm.verify_Send_Password_Reset()
     })
@@ -204,9 +193,6 @@ describe('fungsional forgot password', () =>{
 
         //click button reset password
         forgotPasswordPage_OrangeHrm.Click_Button_Reset()
-
-        //menggu aksi request dari intercept
-        cy.wait('@loginRequest')
 
         //assert username kosong di forgot password
         forgotPasswordPage_OrangeHrm.verify_Username_kosong_Forgot_Password()
