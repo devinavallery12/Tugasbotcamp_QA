@@ -41,8 +41,8 @@ describe('fungsional login', () =>{
         //tidak menginputkan password
         loginPage_OrangeHrm.Null_Password()
 
-        //intercept
-        cy.intercept('GET', 'https://opensource-demo.orangehrmlive.com/web/index.php/core/i18n/messages').as('messagesrequired')
+        //intercept tidak bisa, krna tidak ada endpoint selain message
+        //cy.intercept('GET', 'https://opensource-demo.orangehrmlive.com/web/index.php/core/i18n/messages').as('messagesrequired')
 
         //cklick button login
         loginPage_OrangeHrm.Click_Btn_Login()
